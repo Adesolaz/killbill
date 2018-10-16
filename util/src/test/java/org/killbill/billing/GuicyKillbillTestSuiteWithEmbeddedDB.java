@@ -18,7 +18,8 @@
 
 package org.killbill.billing;
 
-import javax.inject.Inject;
+import javax.annotation.Nullable;
+import javax.cache.CacheManager;
 import javax.inject.Named;
 import javax.sql.DataSource;
 
@@ -31,6 +32,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+
+import com.google.inject.Inject;
 
 import static org.killbill.billing.util.glue.IDBISetup.MAIN_RO_IDBI_NAMED;
 
@@ -53,6 +56,10 @@ public class GuicyKillbillTestSuiteWithEmbeddedDB extends GuicyKillbillTestSuite
 
     @Inject
     protected CacheControllerDispatcher controlCacheDispatcher;
+
+    @Nullable
+    @Inject(optional = true)
+    protected CacheManager cacheManager;
 
     @BeforeSuite(groups = "slow")
     public void beforeSuite() throws Exception {
