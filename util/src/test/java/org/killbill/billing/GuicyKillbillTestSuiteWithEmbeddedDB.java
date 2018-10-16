@@ -33,6 +33,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
 import static org.killbill.billing.util.glue.IDBISetup.MAIN_RO_IDBI_NAMED;
@@ -63,6 +64,8 @@ public class GuicyKillbillTestSuiteWithEmbeddedDB extends GuicyKillbillTestSuite
 
     @BeforeSuite(groups = "slow")
     public void beforeSuite() throws Exception {
+        // Hack to configure log4jdbc -- properties used by tests will be properly setup in @BeforeClass
+        getConfigSource(ImmutableMap.<String, String>of());
         DBTestingHelper.get().start();
     }
 

@@ -19,6 +19,7 @@
 package org.killbill.billing;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -34,7 +35,6 @@ import org.killbill.billing.callcontext.MutableInternalCallContext;
 import org.killbill.billing.platform.api.KillbillConfigSource;
 import org.killbill.billing.platform.test.config.TestKillbillConfigSource;
 import org.killbill.billing.util.callcontext.InternalCallContextFactory;
-import org.killbill.billing.util.callcontext.TenantContext;
 import org.killbill.clock.Clock;
 import org.killbill.clock.ClockMock;
 import org.mockito.Mockito;
@@ -68,6 +68,7 @@ public class GuicyKillbillTestSuite implements IHookable {
 
     private static final ClockMock theStaticClock = new ClockMock();
 
+    protected static ImmutableMap<String, String> extraPropertiesForTestSuite = ImmutableMap.<String, String>of();
     protected final KillbillConfigSource configSource;
     protected final ConfigSource skifeConfigSource;
 
@@ -131,7 +132,11 @@ public class GuicyKillbillTestSuite implements IHookable {
         return getConfigSource(file, ImmutableMap.<String, String>of());
     }
 
-    protected KillbillConfigSource getConfigSource(final String file, final ImmutableMap<String, String> extraProperties) {
+    protected KillbillConfigSource getConfigSource(final Map<String, String> extraProperties) {
+        return getConfigSource(null, extraProperties);
+    }
+
+    protected KillbillConfigSource getConfigSource(final String file, final Map<String, String> extraProperties) {
         try {
             return new TestKillbillConfigSource(file, DBTestingHelper.class, extraProperties);
         } catch (final Exception e) {
