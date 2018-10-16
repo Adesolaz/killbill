@@ -190,7 +190,6 @@ public class AuditLogModelDao implements EntityModelDao<AuditLog>, Externalizabl
         this.id = new UUID(in.readLong(), in.read());
         this.createdDate = new DateTime(in.readUTF());
         this.updatedDate = new DateTime(in.readUTF());
-        ;
         this.tableName = TableName.valueOf(in.readUTF());
         this.targetRecordId = in.readLong();
         this.changeType = ChangeType.valueOf(in.readUTF());

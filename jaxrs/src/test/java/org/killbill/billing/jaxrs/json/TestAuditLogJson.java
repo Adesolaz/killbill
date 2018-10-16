@@ -19,6 +19,7 @@ package org.killbill.billing.jaxrs.json;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
+import org.killbill.billing.callcontext.DefaultCallContext;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -77,7 +78,8 @@ public class TestAuditLogJson extends JaxrsTestSuiteNoDB {
         final ChangeType changeType = ChangeType.DELETE;
         final EntityAudit entityAudit = new EntityAudit(tableName, recordId, changeType, null);
 
-        final AuditLog auditLog = new DefaultAuditLog(new AuditLogModelDao(entityAudit, callContext), ObjectType.ACCOUNT_EMAIL, UUID.randomUUID());
+        final DefaultCallContext defaultCallContext = new DefaultCallContext(callContext);
+        final AuditLog auditLog = new DefaultAuditLog(new AuditLogModelDao(entityAudit, defaultCallContext), ObjectType.ACCOUNT_EMAIL, UUID.randomUUID());
 
         final AuditLogJson auditLogJson = new AuditLogJson(auditLog);
         Assert.assertEquals(auditLogJson.getChangeType(), changeType.toString());
