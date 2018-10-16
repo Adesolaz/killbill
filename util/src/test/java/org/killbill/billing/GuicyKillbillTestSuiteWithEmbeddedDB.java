@@ -88,6 +88,10 @@ public class GuicyKillbillTestSuiteWithEmbeddedDB extends GuicyKillbillTestSuite
             return;
         }
 
+        if (cacheManager != null) {
+            cacheManager.close();
+        }
+
         try {
             DBTestingHelper.get().getInstance().stop();
         } catch (final Exception ignored) {
